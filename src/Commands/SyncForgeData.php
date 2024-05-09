@@ -54,7 +54,7 @@ class SyncForgeData extends Command
                     $project = ForgeProject::updateOrCreate(
                         ['site_id' => $projectData['id']],
                         [
-                            'title' => $projectData['name'],
+                            'name' => $projectData['name'],
                             'deployment_url' => $projectData['deployment_url'],
                             'server_id' => $projectData['server_id'],
                         ]
