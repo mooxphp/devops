@@ -100,7 +100,6 @@ class ForgeProjectResource extends Resource
                             ->success()
                             ->send();
                     }),
-
             ])
             ->bulkActions([
                 DeleteBulkAction::make(),
