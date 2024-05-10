@@ -104,7 +104,7 @@ class ForgeProjectResource extends Resource
             ])
             ->bulkActions([
                 DeleteBulkAction::make(),
-                BulkAction::make('reboot')
+                BulkAction::make('deploy')
                     ->requiresConfirmation()
                     ->action(
                         fn (Collection $records) => $records->each(

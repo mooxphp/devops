@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Route;
 use Moox\ForgeServer\Webhooks\ForgeWebhook;
 use Moox\ForgeServer\Webhooks\GithubWebhook;
 
