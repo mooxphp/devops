@@ -21,6 +21,8 @@ class ForgeWebhook extends Controller
 
             logger()->info('Forge Webhook: Deployment Success', ['site_id' => $data['site']['id']]);
 
+            logger()->info('Forge Webhook: Deployment Success', ['commit_message' => $data['commit_message']]);
+
             if ($project) {
                 $project->update([
                     'commit' => $data['commit_hash'],
