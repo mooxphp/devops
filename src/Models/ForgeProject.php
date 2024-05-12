@@ -14,6 +14,9 @@ class ForgeProject extends Model
         'server_id',
         'site_id',
         'last_deployment',
+        'deployment_status',
+        'deployed_by_user_id',
+        'lock_deployments',
         'commits_behind',
         'last_commit_hash',
         'last_commit_url',
@@ -23,6 +26,7 @@ class ForgeProject extends Model
 
     protected $casts = [
         'last_deployment' => 'datetime',
+        'lock_deployments' => 'boolean',
     ];
 
     public function server()

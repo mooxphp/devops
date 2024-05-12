@@ -18,6 +18,9 @@ return new class extends Migration
             $table->integer('server_id');
             $table->integer('site_id');
             $table->timestamp('last_deployment')->nullable();
+            $table->string('deployment_status')->nullable();
+            $table->integer('deployed_by_user_id')->nullable;
+            $table->boolean('lock_deployments')->nullable;
             $table->tinyInteger('commits_behind')->nullable();
             $table->string('last_commit_hash')->nullable();
             $table->string('last_commit_url')->nullable();

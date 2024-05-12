@@ -3,6 +3,7 @@
 namespace Moox\ForgeServer\Webhooks;
 
 use App\Http\Controllers\Controller;
+use Filament\Notifications\Notification;
 use Illuminate\Http\Request;
 use Moox\ForgeServer\Models\ForgeProject;
 
@@ -12,25 +13,42 @@ class ForgeWebhook extends Controller
     {
         $data = $request->all();
 
-        // https://forge.laravel.com/docs/sites/deployments.html#webhooks
-        // logger()->info('Forge Webhook', $data);
+        $project = ForgeProject::where('site_id', $data['site']['id'])->first();
 
-        if ($data['status'] == 'success') {
-            $project = ForgeProject::where('site_id', $data['site']['id'])->first();
+        if ($project) {
+            $project->update([
+                'last_commit_hash' => $data['commit_hash'],
+                'last_commit_url' => $data['commit_url'],
+                'last_commit_message' => $data['commit_message'],
+                'last_commit_author' => $data['commit_author'],
+                'deployment_status' => 'open',
+                'lock_deployments' => false,
+                'last_deployment' => now(),
+            ]);
 
-            if ($project) {
-                $project->update([
-                    'last_commit_hash' => $data['commit_hash'],
-                    'last_commit_url' => $data['commit_url'],
-                    'last_commit_message' => $data['commit_message'],
-                    'last_commit_author' => $data['commit_author'],
-                    'last_deployment' => now(),
-                ]);
+            if ($data['status'] == 'success') {
+                Notification::make()
+                    ->title('Project '.$project->name.' has been deployed.')
+                    ->success()
+                    ->persistent()
+                    ->broadcast($project->deployed_by_user_id);
+
+                logger()->info('Project '.$project->name.' has been deployed.');
             } else {
-                logger()->error('Failed to update project: Site ID not found', ['site_id' => $data['site']['id']]);
+                Notification::make()
+                    ->title('Project '.$project->name.' has NOT been deployed.')
+                    ->body(json_encode($data))
+                    ->danger()
+                    ->persistent()
+                    ->broadcast($project->deployed_by_user_id);
 
-                return response()->json(['error' => 'Site ID not found'], 404);
+                logger()->error('Project '.$project->name.' has NOT been deployed.');
             }
+
+        } else {
+            logger()->error('Failed to update project: Site ID not found', ['site_id' => $data['site']['id']]);
+
+            return response()->json(['error' => 'Site ID not found'], 404);
         }
     }
 }
