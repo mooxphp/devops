@@ -77,10 +77,6 @@ class ForgeProjectResource extends Resource
                     ->sortable()
                     ->since()
                     ->searchable(),
-                TextColumn::make('last_commit_hash')
-                    ->label(__('forge-servers::translations.last_commit_hash'))
-                    ->sortable()
-                    ->searchable(),
                 TextColumn::make('last_commit_message')
                     ->label(__('forge-servers::translations.last_commit_message'))
                     ->sortable()

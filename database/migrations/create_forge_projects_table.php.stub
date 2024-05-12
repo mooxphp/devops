@@ -20,6 +20,7 @@ return new class extends Migration
             $table->timestamp('last_deployment')->nullable();
             $table->tinyInteger('commits_behind')->nullable();
             $table->string('last_commit_hash')->nullable();
+            $table->string('last_commit_url')->nullable();
             $table->string('last_commit_message')->nullable();
             $table->string('last_commit_author')->nullable();
             $table->timestamps();

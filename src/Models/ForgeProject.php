@@ -16,6 +16,7 @@ class ForgeProject extends Model
         'last_deployment',
         'commits_behind',
         'last_commit_hash',
+        'last_commit_url',
         'last_commit_message',
         'last_commit_author',
     ];
