@@ -40,7 +40,8 @@ class DeployProjectJob implements ShouldQueue
             ->success()
             ->broadcast($this->user);
 
-        $this->project->last_deployment = now();
+        // this is better done by the Forge webhook
+        //$this->project->last_deployment = now();
         $this->project->save();
     }
 }
