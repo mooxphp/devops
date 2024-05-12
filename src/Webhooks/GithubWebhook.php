@@ -10,11 +10,16 @@ class GithubWebhook extends Controller
 {
     public function handleGitHub(Request $request)
     {
-        // Handle GitHub webhooks, assuming push events
         $data = $request->all();
+
+        logger()->info('GitHub Webhook', $data);
+
+        /*
         $repository = $data['repository']['name'];
         $commits = $data['commits'];
         $head_commit = $data['head_commit'];
+
+
 
         // Process the latest commit details
         // Find the relevant project and update it
@@ -27,5 +32,7 @@ class GithubWebhook extends Controller
                 'commit_author' => $head_commit['author']['name'],
             ]);
         }
+
+        */
     }
 }
