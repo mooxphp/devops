@@ -19,6 +19,8 @@ class ForgeWebhook extends Controller
         if ($data['status'] == 'success') {
             $project = ForgeProject::where('site_id', $data['site']['id'])->first();
 
+            logger()->info('Forge Webhook: Deployment Success', ['site_id' => $data['site']['id']]);
+
             if ($project) {
                 $project->update([
                     'commit' => $data['commit_hash'],
