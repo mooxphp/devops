@@ -3,6 +3,7 @@
 namespace Moox\ForgeServer\Webhooks;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Filament\Notifications\Notification;
 use Illuminate\Http\Request;
 use Moox\ForgeServer\Models\ForgeProject;
@@ -16,6 +17,8 @@ class ForgeWebhook extends Controller
         $project = ForgeProject::where('site_id', $data['site']['id'])->first();
 
         if ($project) {
+            $user = User::where('id', $project->deployed_by_user_id)->first();
+
             $project->update([
                 'last_commit_hash' => $data['commit_hash'],
                 'last_commit_url' => $data['commit_url'],
@@ -31,7 +34,7 @@ class ForgeWebhook extends Controller
                     ->title('Project '.$project->name.' has been deployed.')
                     ->success()
                     ->persistent()
-                    ->broadcast($project->deployed_by_user_id);
+                    ->broadcast($user);
 
                 logger()->info('Project '.$project->name.' has been deployed.');
             } else {
@@ -40,7 +43,7 @@ class ForgeWebhook extends Controller
                     ->body(json_encode($data))
                     ->danger()
                     ->persistent()
-                    ->broadcast($project->deployed_by_user_id);
+                    ->broadcast($user);
 
                 logger()->error('Project '.$project->name.' has NOT been deployed.');
             }
