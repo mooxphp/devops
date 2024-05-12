@@ -75,6 +75,7 @@ class ForgeProjectResource extends Resource
                 TextColumn::make('last_deployment')
                     ->label(__('forge-servers::translations.last_deployment'))
                     ->sortable()
+                    ->since()
                     ->searchable(),
                 TextColumn::make('last_commit')
                     ->label(__('forge-servers::translations.last_commit_hash'))
