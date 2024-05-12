@@ -78,6 +78,10 @@ class ForgeProjectResource extends Resource
                     ->sortable()
                     ->since()
                     ->searchable(),
+                TextColumn::make('deployment_status')
+                    ->label(__('forge-servers::translations.deployment_status'))
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('last_commit_message')
                     ->label(__('forge-servers::translations.last_commit_message'))
                     ->sortable()

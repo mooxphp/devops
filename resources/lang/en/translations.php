@@ -33,4 +33,5 @@ return [
     'last_commit_message' => 'Commit Message',
     'last_commit_author' => 'Author',
     'forge_projects' => 'Forge Projects',
+    'deployment_status' => 'Status',
 ];
