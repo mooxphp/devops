@@ -27,9 +27,9 @@ class ForgeWebhook extends Controller
 
             if ($project) {
                 $project->update([
-                    'commit' => $data['commit_hash'],
-                    'commit_message' => $data['commit_message'],
-                    'commit_author' => $data['commit_author'],
+                    'last_commit' => $data['commit_hash'],
+                    'last_commit_message' => $data['commit_message'],
+                    'last_commit_author' => $data['commit_author'],
                     'last_deployment' => now(),
                 ]);
             } else {
