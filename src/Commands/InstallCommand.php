@@ -85,7 +85,7 @@ class InstallCommand extends Command
     public function publishMigrations(): void
     {
         if (confirm('Do you wish to publish the migrations?', true)) {
-            if (Schema::hasTable('forge_servers')) {
+            if (Schema::hasTable('forge_repositories')) {
                 warning('The forge_servers table already exists. The migrations will not be published.');
 
                 return;

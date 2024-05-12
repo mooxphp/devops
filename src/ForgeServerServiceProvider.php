@@ -19,7 +19,11 @@ class ForgeServerServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasRoute('api')
             ->hasTranslations()
-            ->hasMigrations(['create_forge_servers_table', 'create_forge_projects_table'])
+            ->hasMigrations([
+                'create_forge_servers_table',
+                'create_forge_projects_table',
+                'create_forge_commits_table',
+                'create_forge_repositories_table', ])
             ->hasCommands(InstallCommand::class, SyncForgeData::class);
     }
 }
