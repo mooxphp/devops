@@ -12,6 +12,8 @@ class ForgeWebhook extends Controller
     {
         $data = $request->all();
 
+        logger()->info('Forge Webhook', $data);
+
         // https://forge.laravel.com/docs/sites/deployments.html#webhooks
 
         if ($data['status'] == 'success') {
