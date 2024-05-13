@@ -100,7 +100,6 @@ class ForgeProjectResource extends Resource
                         Notification::make()
                             ->title('Deploying project '.$record->name)
                             ->success()
-                            ->persistent()
                             ->send();
                     }),
             ])

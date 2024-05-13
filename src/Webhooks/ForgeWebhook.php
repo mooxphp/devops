@@ -19,16 +19,6 @@ class ForgeWebhook extends Controller
         if ($project) {
             $user = User::where('id', $project->deployed_by_user_id)->first();
 
-            $project->update([
-                'last_commit_hash' => $data['commit_hash'],
-                'last_commit_url' => $data['commit_url'],
-                'last_commit_message' => $data['commit_message'],
-                'last_commit_author' => $data['commit_author'],
-                'deployment_status' => 'open',
-                'lock_deployments' => false,
-                'last_deployment' => now(),
-            ]);
-
             if ($data['status'] == 'success') {
                 Notification::make()
                     ->title('Project '.$project->name.' has been deployed.')
@@ -47,6 +37,16 @@ class ForgeWebhook extends Controller
 
                 logger()->error('Project '.$project->name.' has NOT been deployed.');
             }
+
+            $project->update([
+                'last_commit_hash' => $data['commit_hash'],
+                'last_commit_url' => $data['commit_url'],
+                'last_commit_message' => $data['commit_message'],
+                'last_commit_author' => $data['commit_author'],
+                'deployment_status' => $data['status'],
+                'lock_deployments' => false,
+                'last_deployment' => now(),
+            ]);
 
         } else {
             logger()->error('Failed to update project: Site ID not found', ['site_id' => $data['site']['id']]);

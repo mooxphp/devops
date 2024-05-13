@@ -2,7 +2,6 @@
 
 namespace Moox\ForgeServer\Jobs;
 
-use Filament\Notifications\Notification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -32,11 +31,6 @@ class DeployProjectJob implements ShouldQueue
             'deployed_by_user_id' => $this->user->id,
             'lock_deployments' => true,
         ]);
-
-        Notification::make()
-            ->title('Project '.$this->project->name.' will be deployed.')
-            ->info()
-            ->broadcast($this->user);
 
         $response = Http::withHeaders([
             'Authorization' => 'Bearer '.config('forge-servers.forge_api_key'),
