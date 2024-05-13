@@ -36,7 +36,6 @@ class DeployProjectJob implements ShouldQueue
         Notification::make()
             ->title('Project '.$this->project->name.' will be deployed.')
             ->info()
-            ->persistent()
             ->broadcast($this->user);
 
         $response = Http::withHeaders([
