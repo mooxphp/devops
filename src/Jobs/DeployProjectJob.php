@@ -2,6 +2,7 @@
 
 namespace Moox\ForgeServer\Jobs;
 
+use Filament\Notifications\Notification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -36,5 +37,13 @@ class DeployProjectJob implements ShouldQueue
             'Authorization' => 'Bearer '.config('forge-servers.forge_api_key'),
             'Accept' => 'application/json',
         ])->post($this->project->deployment_url);
+
+        Notification::make()
+            ->title('Project '.$this->project->name.' will now be deployed.')
+            ->success()
+            ->persistent()
+            ->broadcast($this->user);
+
+        logger()->info('Project '.$this->project->name.' will now be deployed.');
     }
 }
