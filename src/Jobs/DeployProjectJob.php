@@ -44,6 +44,6 @@ class DeployProjectJob implements ShouldQueue
             ->persistent()
             ->broadcast($this->user);
 
-        logger()->info('Project '.$this->project->name.' will now be deployed.');
+        logger()->info('Project '.$this->project->name.' will now be deployed. Should be notified to '.$this->user->email);
     }
 }
