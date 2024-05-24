@@ -26,7 +26,7 @@ class ForgeWebhook extends Controller
                     ->actions([
                         Action::make('view')
                             ->button()
-                            ->url('https://forge.laravel.com/servers/'.$project->server_id.'/sites/'.$project->site_id.'/deployments'),
+                            ->url('https://forge.laravel.com/servers/'.$project->server_id.'/sites/'.$project->site_id.'/deployments', shouldOpenInNewTab: true),
                     ])
                     ->success()
                     ->broadcast($user);
@@ -36,7 +36,7 @@ class ForgeWebhook extends Controller
                     ->actions([
                         Action::make('view')
                             ->button()
-                            ->url('https://forge.laravel.com/servers/'.$project->server_id.'/sites/'.$project->site_id.'/deployments'),
+                            ->url('https://forge.laravel.com/servers/'.$project->server_id.'/sites/'.$project->site_id.'/deployments', shouldOpenInNewTab: true),
                     ])
                     ->body(json_encode($data))
                     ->danger()
