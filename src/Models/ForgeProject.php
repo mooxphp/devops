@@ -3,6 +3,7 @@
 namespace Moox\ForgeServer\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class ForgeProject extends Model
 {
@@ -32,5 +33,13 @@ class ForgeProject extends Model
     public function server()
     {
         return $this->belongsTo(ForgeServer::class, 'server_id', 'forge_id');
+    }
+
+    public static function getForgeProjectAuthorOptions(): Collection
+    {
+        return static::select('last_commit_author')
+            ->distinct()
+            ->whereNotNull('last_commit_author')
+            ->pluck('last_commit_author', 'last_commit_author');
     }
 }

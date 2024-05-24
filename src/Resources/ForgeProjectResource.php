@@ -10,7 +10,9 @@ use Filament\Resources\Resource;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Collection;
 use Moox\ForgeServer\Jobs\DeployProjectJob;
@@ -57,41 +59,80 @@ class ForgeProjectResource extends Resource
         return $table
             ->poll('3s')
             ->columns([
+                IconColumn::make('deployment_status')
+                    ->label('')
+                    ->sortable()
+                    ->icon(function ($record) {
+                        $status = $record->deployment_status;
+
+                        return match ($status) {
+                            'success' => 'heroicon-o-check-circle',
+                            'running' => 'heroicon-o-play-circle',
+                            'failed' => 'heroicon-o-exclamation-circle',
+                            default => 'heroicon-o-x-circle',
+                        };
+                    })
+                    ->color(fn (string $state): string => match ($state) {
+                        'failed' => 'danger',
+                        'running' => 'warning',
+                        'success' => 'success',
+                        default => 'gray',
+                    })
+                    ->extraAttributes(fn ($record) => $record->deployment_status === 'running' ? ['class' => 'animate-pulse'] : [])
+                    ->tooltip(fn ($record) => __('forge-servers::translations.'.($record->deployment_status ?? 'unknown'))),
                 TextColumn::make('name')
                     ->label(__('forge-servers::translations.name'))
                     ->sortable()
+                    ->toggleable()
                     ->searchable(),
                 TextColumn::make('server.name')
                     ->label(__('forge-servers::translations.server'))
                     ->sortable()
+                    ->toggleable()
                     ->searchable(),
                 TextColumn::make('site_id')
                     ->label(__('forge-servers::translations.site_id'))
                     ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
                 TextColumn::make('commits_behind')
                     ->label(__('forge-servers::translations.commits_behind'))
                     ->sortable()
+                    ->toggleable()
                     ->searchable(),
                 TextColumn::make('last_deployment')
                     ->label(__('forge-servers::translations.last_deployment'))
                     ->sortable()
+                    ->toggleable()
                     ->since()
-                    ->searchable(),
-                TextColumn::make('deployment_status')
-                    ->label(__('forge-servers::translations.deployment_status'))
-                    ->sortable()
                     ->searchable(),
                 TextColumn::make('last_commit_message')
                     ->label(__('forge-servers::translations.last_commit_message'))
                     ->sortable()
-                    ->searchable(),
+                    ->toggleable()
+                    ->searchable()
+                    ->limit(30),
                 TextColumn::make('last_commit_author')
                     ->label(__('forge-servers::translations.last_commit_author'))
                     ->sortable()
+                    ->toggleable()
                     ->searchable(),
             ])
-            ->defaultSort('name', 'desc')
+            ->defaultSort('last_deployment', 'desc')
+            ->filters([
+                SelectFilter::make('deployment_status')
+                    ->options([
+                        'success' => 'Deployed successfully',
+                        'running' => 'Deploying',
+                        'failed' => 'Deployment failed',
+                        'never' => 'Never deployed',
+                    ]),
+                SelectFilter::make('server')
+                    ->relationship('server', 'name'),
+                SelectFilter::make('last_commit_author')
+                    ->label('Author')
+                    ->options(ForgeProject::getForgeProjectAuthorOptions()),
+            ])
             ->actions([
                 Action::make('deploy')
                     ->label('Deploy')
