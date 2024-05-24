@@ -41,9 +41,6 @@ class DeployProjectJob implements ShouldQueue
         Notification::make()
             ->title('Project '.$this->project->name.' will now be deployed.')
             ->success()
-            ->persistent()
             ->broadcast($this->user);
-
-        logger()->info('Project '.$this->project->name.' will now be deployed. Should be notified to '.$this->user->email);
     }
 }

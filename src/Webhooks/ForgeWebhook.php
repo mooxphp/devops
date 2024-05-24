@@ -4,6 +4,7 @@ namespace Moox\ForgeServer\Webhooks;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Filament\Notifications\Actions\Action;
 use Filament\Notifications\Notification;
 use Illuminate\Http\Request;
 use Moox\ForgeServer\Models\ForgeProject;
@@ -21,15 +22,22 @@ class ForgeWebhook extends Controller
 
             if ($data['status'] == 'success') {
                 Notification::make()
-                    ->title('Project '.$project->name.' has been deployed.')
+                    ->title('Project '.$project->name.' has been deployed successfully. You may visit Forge for more details.')
+                    ->actions([
+                        Action::make('view')
+                            ->button()
+                            ->url('https://forge.laravel.com/servers/'.$project->server_id.'/sites/'.$project->site_id.'/deployments'),
+                    ])
                     ->success()
-                    ->persistent()
                     ->broadcast($user);
-
-                logger()->info('Project '.$project->name.' has been deployed.');
             } else {
                 Notification::make()
-                    ->title('Project '.$project->name.' has NOT been deployed.')
+                    ->title('Project '.$project->name.' has NOT been deployed! Visit Forge to resolve errors.')
+                    ->actions([
+                        Action::make('view')
+                            ->button()
+                            ->url('https://forge.laravel.com/servers/'.$project->server_id.'/sites/'.$project->site_id.'/deployments'),
+                    ])
                     ->body(json_encode($data))
                     ->danger()
                     ->persistent()
