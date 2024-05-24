@@ -29,7 +29,8 @@ class ForgeWebhook extends Controller
                             ->url('https://forge.laravel.com/servers/'.$project->server_id.'/sites/'.$project->site_id.'/deployments', shouldOpenInNewTab: true),
                     ])
                     ->success()
-                    ->broadcast($user);
+                    //->broadcast($user);
+                    ->sendToDatabase($user);
             } else {
                 Notification::make()
                     ->title('Project '.$project->name.' has NOT been deployed! Visit Forge to resolve errors.')
