@@ -29,8 +29,7 @@ class ForgeWebhook extends Controller
                             ->url('https://forge.laravel.com/servers/'.$project->server_id.'/sites/'.$project->site_id.'/deployments', shouldOpenInNewTab: true),
                     ])
                     ->success()
-                    //->broadcast($user);
-                    ->sendToDatabase($user);
+                    ->broadcast($user);
             } else {
                 Notification::make()
                     ->title('Project '.$project->name.' has NOT been deployed! Visit Forge to resolve errors.')
@@ -41,10 +40,9 @@ class ForgeWebhook extends Controller
                     ])
                     ->body(json_encode($data))
                     ->danger()
-                    ->persistent()
-                    ->broadcast($user);
+                    ->sendToDatabase($user);
 
-                logger()->error('Project '.$project->name.' has NOT been deployed.');
+                logger()->error('Project '.$project->name.' has NOT been deployed due to errors.');
             }
 
             $project->update([
