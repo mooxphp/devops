@@ -1,6 +1,6 @@
 <?php
 
-namespace Moox\ForgeServer\Resources;
+namespace Moox\Devops\Resources;
 
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\TextInput;
@@ -10,21 +10,28 @@ use Filament\Resources\Resource;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Moox\ForgeServer\Jobs\DeployProjectJob;
-use Moox\ForgeServer\Models\ForgeProject;
-use Moox\ForgeServer\Resources\ForgeProjectResource\Pages\ListPage;
-use Moox\ForgeServer\Resources\ForgeProjectResource\Widgets\ForgeProjectWidgets;
+use Moox\Devops\Jobs\DeployProjectJob;
+use Moox\Devops\Models\MooxProject;
+use Moox\Devops\Resources\MooxProjectResource\Pages\ListPage;
+use Moox\Devops\Resources\MooxProjectResource\Widgets\MooxProjectWidgets;
 
-class ForgeProjectResource extends Resource
+class MooxProjectResource extends Resource
 {
-    protected static ?string $model = ForgeProject::class;
+    protected static ?string $model = MooxProject::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->whereNot('is_failover', true);
+    }
 
     public static function form(Form $form): Form
     {
@@ -79,41 +86,41 @@ class ForgeProjectResource extends Resource
                         default => 'gray',
                     })
                     ->extraAttributes(fn ($record) => $record->deployment_status === 'running' ? ['class' => 'animate-pulse'] : [])
-                    ->tooltip(fn ($record) => __('forge-servers::translations.'.($record->deployment_status ?? 'unknown'))),
+                    ->tooltip(fn ($record) => __('devops::translations.'.($record->deployment_status ?? 'unknown'))),
                 TextColumn::make('name')
-                    ->label(__('forge-servers::translations.name'))
+                    ->label(__('devops::translations.name'))
                     ->sortable()
                     ->toggleable()
                     ->searchable(),
                 TextColumn::make('server.name')
-                    ->label(__('forge-servers::translations.server'))
+                    ->label(__('devops::translations.server'))
                     ->sortable()
                     ->toggleable()
                     ->searchable(),
                 TextColumn::make('site_id')
-                    ->label(__('forge-servers::translations.site_id'))
+                    ->label(__('devops::translations.site_id'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
                 TextColumn::make('commits_behind')
-                    ->label(__('forge-servers::translations.commits_behind'))
+                    ->label(__('devops::translations.commits_behind'))
                     ->sortable()
                     ->toggleable()
                     ->searchable(),
                 TextColumn::make('last_deployment')
-                    ->label(__('forge-servers::translations.last_deployment'))
+                    ->label(__('devops::translations.last_deployment'))
                     ->sortable()
                     ->toggleable()
                     ->since()
                     ->searchable(),
                 TextColumn::make('last_commit_message')
-                    ->label(__('forge-servers::translations.last_commit_message'))
+                    ->label(__('devops::translations.last_commit_message'))
                     ->sortable()
                     ->toggleable()
                     ->searchable()
                     ->limit(30),
                 TextColumn::make('last_commit_author')
-                    ->label(__('forge-servers::translations.last_commit_author'))
+                    ->label(__('devops::translations.last_commit_author'))
                     ->sortable()
                     ->toggleable()
                     ->searchable(),
@@ -131,9 +138,10 @@ class ForgeProjectResource extends Resource
                     ->relationship('server', 'name'),
                 SelectFilter::make('last_commit_author')
                     ->label('Author')
-                    ->options(ForgeProject::getForgeProjectAuthorOptions()),
+                    ->options(MooxProject::getMooxProjectAuthorOptions()),
             ])
             ->actions([
+                EditAction::make(),
                 Action::make('deploy')
                     ->label('Deploy')
                     ->action(function ($record) {
@@ -172,28 +180,28 @@ class ForgeProjectResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            //ForgeProjectWidgets::class,
+            //MooxProjectWidgets::class,
         ];
     }
 
     public static function getModelLabel(): string
     {
-        return __('forge-servers::translations.project');
+        return __('devops::translations.project');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('forge-servers::translations.projects');
+        return __('devops::translations.projects');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('forge-servers::translations.forge_projects');
+        return __('devops::translations.forge_projects');
     }
 
     public static function getBreadcrumb(): string
     {
-        return __('forge-servers::translations.projects');
+        return __('devops::translations.projects');
     }
 
     public static function shouldRegisterNavigation(): bool
@@ -208,11 +216,11 @@ class ForgeProjectResource extends Resource
 
     public static function getNavigationGroup(): ?string
     {
-        return __('forge-servers::translations.navigation_group');
+        return __('devops::translations.navigation_group');
     }
 
     public static function getNavigationSort(): ?int
     {
-        return config('forge-servers.navigation_sort');
+        return config('devops.navigation_sort');
     }
 }

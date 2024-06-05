@@ -1,25 +1,25 @@
 <?php
 
-namespace Moox\ForgeServer;
+namespace Moox\Devops;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
-use Moox\ForgeServer\Resources\ForgeProjectResource;
+use Moox\Devops\Resources\MooxServerResource;
 
-class ForgeProjectPlugin implements Plugin
+class MooxServerPlugin implements Plugin
 {
     use EvaluatesClosures;
 
     public function getId(): string
     {
-        return 'forge-projects';
+        return 'devops';
     }
 
     public function register(Panel $panel): void
     {
         $panel->resources([
-            ForgeProjectResource::class,
+            MooxServerResource::class,
         ]);
     }
 

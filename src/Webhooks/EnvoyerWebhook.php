@@ -9,7 +9,7 @@ use Filament\Notifications\Notification;
 use Illuminate\Http\Request;
 use Moox\Devops\Models\MooxProject;
 
-class ForgeWebhook extends Controller
+class EnvoyerWebhook extends Controller
 {
     public function handleForge(Request $request)
     {

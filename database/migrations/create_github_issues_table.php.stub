@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('forge_repositories', function (Blueprint $table) {
+        Schema::create('github_issues', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('repository_url');
-            $table->integer('platform');
-            $table->string('platform_uid');
-            $table->timestamp('last_commit')->nullable();
-            $table->integer('deploys_to_project_id')->nullable();
+            $table->string('issue_id');
+            $table->string('issue_title');
             $table->timestamps();
         });
     }
@@ -29,6 +25,6 @@ return new class extends Migration
     public function down(): void
 
     {
-        Schema::dropIfExists('forge_repositories');
+        Schema::dropIfExists('github_issues');
     }
 };

@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-We maintain the current version of `Moox ForgeServer` actively.
+We maintain the current version of `Moox MooxServer` actively.
 
 Do not expect security fixes for older versions.
 

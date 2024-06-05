@@ -1,12 +1,12 @@
 <?php
 
-namespace Moox\ForgeServer\Models;
+namespace Moox\Devops\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ForgeCommit extends Model
+class GithubCommit extends Model
 {
-    protected $table = 'forge_commits';
+    protected $table = 'github_commits';
 
     protected $fillable = [
         'commit_hash',
@@ -24,6 +24,6 @@ class ForgeCommit extends Model
 
     public function server()
     {
-        return $this->belongsTo(ForgeRepository::class, 'repository_id', 'id');
+        return $this->belongsTo(GithubRepository::class, 'repository_id', 'id');
     }
 }

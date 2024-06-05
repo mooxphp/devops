@@ -2,28 +2,29 @@
 
 declare(strict_types=1);
 
-namespace Moox\ForgeServer;
+namespace Moox\Devops;
 
-use Moox\ForgeServer\Commands\InstallCommand;
-use Moox\ForgeServer\Commands\SyncForgeData;
+use Moox\Devops\Commands\InstallCommand;
+use Moox\Devops\Commands\SyncForgeData;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class ForgeServerServiceProvider extends PackageServiceProvider
+class DevopsServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
         $package
-            ->name('forge-servers')
+            ->name('devops')
             ->hasConfigFile()
             ->hasViews()
             ->hasRoute('api')
             ->hasTranslations()
             ->hasMigrations([
-                'create_forge_servers_table',
-                'create_forge_projects_table',
-                'create_forge_commits_table',
-                'create_forge_repositories_table', ])
+                'create_moox_servers_table',
+                'create_moox_projects_table',
+                'create_github_commits_table',
+                'create_github_repositories_table',
+                'create_github_issues_table'])
             ->hasCommands(InstallCommand::class, SyncForgeData::class);
     }
 }

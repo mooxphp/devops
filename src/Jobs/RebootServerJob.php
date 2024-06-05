@@ -1,6 +1,6 @@
 <?php
 
-namespace Moox\ForgeServer\Jobs;
+namespace Moox\Devops\Jobs;
 
 use Filament\Notifications\Notification;
 use Illuminate\Bus\Queueable;
@@ -10,7 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Moox\ForgeServer\Models\ForgeServer;
+use Moox\Devops\Models\MooxServer;
 
 class RebootServerJob implements ShouldQueue
 {
@@ -22,7 +22,7 @@ class RebootServerJob implements ShouldQueue
 
     protected $user;
 
-    public function __construct(ForgeServer $server, $pings, $user)
+    public function __construct(MooxServer $server, $pings, $user)
     {
         $this->server = $server;
         $this->pings = $pings;

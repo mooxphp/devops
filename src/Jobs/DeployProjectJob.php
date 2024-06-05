@@ -1,6 +1,6 @@
 <?php
 
-namespace Moox\ForgeServer\Jobs;
+namespace Moox\Devops\Jobs;
 
 use Filament\Notifications\Notification;
 use Illuminate\Bus\Queueable;
@@ -9,7 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
-use Moox\ForgeServer\Models\ForgeProject;
+use Moox\Devops\Models\MooxProject;
 
 class DeployProjectJob implements ShouldQueue
 {
@@ -19,7 +19,7 @@ class DeployProjectJob implements ShouldQueue
 
     protected $user;
 
-    public function __construct(ForgeProject $project, $user)
+    public function __construct(MooxProject $project, $user)
     {
         $this->project = $project;
         $this->user = $user;
@@ -34,7 +34,7 @@ class DeployProjectJob implements ShouldQueue
         ]);
 
         $response = Http::withHeaders([
-            'Authorization' => 'Bearer '.config('forge-servers.forge_api_key'),
+            'Authorization' => 'Bearer '.config('devops.forge_api_key'),
             'Accept' => 'application/json',
         ])->post($this->project->deployment_url);
 

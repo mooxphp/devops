@@ -1,6 +1,6 @@
 <?php
 
-namespace Moox\ForgeServer\Resources;
+namespace Moox\Devops\Resources;
 
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -13,14 +13,14 @@ use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Collection;
-use Moox\ForgeServer\Jobs\RebootServerJob;
-use Moox\ForgeServer\Models\ForgeServer;
-use Moox\ForgeServer\Resources\ForgeServerResource\Pages\ListPage;
-use Moox\ForgeServer\Resources\ForgeServerResource\Widgets\ForgeServerWidgets;
+use Moox\Devops\Jobs\RebootServerJob;
+use Moox\Devops\Models\MooxServer;
+use Moox\Devops\Resources\MooxServerResource\Pages\ListPage;
+use Moox\Devops\Resources\MooxServerResource\Widgets\MooxServerWidgets;
 
-class ForgeServerResource extends Resource
+class MooxServerResource extends Resource
 {
-    protected static ?string $model = ForgeServer::class;
+    protected static ?string $model = MooxServer::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -61,33 +61,33 @@ class ForgeServerResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->label(__('forge-servers::translations.name'))
+                    ->label(__('devops::translations.name'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('forge_id')
-                    ->label(__('forge-servers::translations.forge_id'))
+                    ->label(__('devops::translations.forge_id'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('ip_address')
-                    ->label(__('forge-servers::translations.ip_address'))
+                    ->label(__('devops::translations.ip_address'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('type')
-                    ->label(__('forge-servers::translations.type'))
+                    ->label(__('devops::translations.type'))
                     ->sortable(),
                 TextColumn::make('provider')
-                    ->label(__('forge-servers::translations.provider'))
+                    ->label(__('devops::translations.provider'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('region')
-                    ->label(__('forge-servers::translations.region'))
+                    ->label(__('devops::translations.region'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('ubuntu_version')
-                    ->label(__('forge-servers::translations.ubuntu_version'))
+                    ->label(__('devops::translations.ubuntu_version'))
                     ->sortable(),
                 TextColumn::make('php_version')
-                    ->label(__('forge-servers::translations.php_version'))
+                    ->label(__('devops::translations.php_version'))
                     ->sortable(),
             ])
             ->defaultSort('name', 'desc')
@@ -132,28 +132,28 @@ class ForgeServerResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            //ForgeServerWidgets::class,
+            //MooxServerWidgets::class,
         ];
     }
 
     public static function getModelLabel(): string
     {
-        return __('forge-servers::translations.single');
+        return __('devops::translations.single');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('forge-servers::translations.plural');
+        return __('devops::translations.plural');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('forge-servers::translations.navigation_label');
+        return __('devops::translations.navigation_label');
     }
 
     public static function getBreadcrumb(): string
     {
-        return __('forge-servers::translations.breadcrumb');
+        return __('devops::translations.breadcrumb');
     }
 
     public static function shouldRegisterNavigation(): bool
@@ -168,11 +168,11 @@ class ForgeServerResource extends Resource
 
     public static function getNavigationGroup(): ?string
     {
-        return __('forge-servers::translations.navigation_group');
+        return __('devops::translations.navigation_group');
     }
 
     public static function getNavigationSort(): ?int
     {
-        return config('forge-servers.navigation_sort');
+        return config('devops.navigation_sort');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Moox\ForgeServer\Commands;
+namespace Moox\Devops\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
@@ -20,14 +20,14 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'mooxforgeservers:install';
+    protected $signature = 'mooxdevops:install';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Installs Moox ForgeServer, publishes configuration, migrations and registers plugins.';
+    protected $description = 'Installs Moox DevOps, publishes configuration, migrations and registers plugins.';
 
     /**
      * Execute the console command.
@@ -66,39 +66,39 @@ class InstallCommand extends Command
 
     public function welcome(): void
     {
-        info('Welcome to Moox ForgeServer Installer');
+        info('Welcome to Moox MooxServer Installer');
     }
 
     public function publishConfiguration(): void
     {
         if (confirm('Do you wish to publish the configuration?', true)) {
-            if (! File::exists('config/forge-servers.php')) {
-                info('Publishing ForgeServer Configuration...');
-                $this->callSilent('vendor:publish', ['--tag' => 'forge-servers-config']);
+            if (! File::exists('config/devops.php')) {
+                info('Publishing DevOps Configuration...');
+                $this->callSilent('vendor:publish', ['--tag' => 'devops-config']);
 
                 return;
             }
-            warning('The ForgeServer config already exist. The config will not be published.');
+            warning('The DevOps config already exist. The config will not be published.');
         }
     }
 
     public function publishMigrations(): void
     {
         if (confirm('Do you wish to publish the migrations?', true)) {
-            if (Schema::hasTable('forge_repositories')) {
-                warning('The forge_servers table already exists. The migrations will not be published.');
+            if (Schema::hasTable('github_repositories')) {
+                warning('The DevOps tables already exists. The migrations will not be published.');
 
                 return;
             }
-            info('Publishing ForgeServers Migrations...');
-            $this->callSilent('vendor:publish', ['--tag' => 'forge-servers-migrations']);
+            info('Publishing DevOps Migrations...');
+            $this->callSilent('vendor:publish', ['--tag' => 'devops-migrations']);
         }
     }
 
     public function runMigrations(): void
     {
         if (confirm('Do you wish to run the migrations?', true)) {
-            info('Running ForgeServer Migrations...');
+            info('Running DevOps Migrations...');
             $this->callSilent('migrate');
         }
     }
@@ -112,12 +112,12 @@ class InstallCommand extends Command
 
             $intend = '                ';
 
-            $namespace = "\Moox\ForgeServer";
+            $namespace = "\Moox\Devops";
 
             $pluginsToAdd = multiselect(
                 label: 'These plugins will be installed:',
-                options: ['ForgeServerPlugin', 'ForgeProjectPlugin'],
-                default: ['ForgeServerPlugin', 'ForgeProjectPlugin'],
+                options: ['MooxServerPlugin', 'MooxProjectPlugin'],
+                default: ['MooxServerPlugin', 'MooxProjectPlugin'],
             );
 
             $function = '::make(),';
@@ -158,6 +158,6 @@ class InstallCommand extends Command
 
     public function finish(): void
     {
-        note('Moox ForgeServer installed successfully. Enjoy!');
+        note('Moox MooxServer installed successfully. Enjoy!');
     }
 }

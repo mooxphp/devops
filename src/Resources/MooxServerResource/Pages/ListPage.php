@@ -1,14 +1,14 @@
 <?php
 
-namespace Moox\ForgeServer\Resources\ForgeProjectResource\Pages;
+namespace Moox\Devops\Resources\MooxServerResource\Pages;
 
 use Filament\Resources\Pages\ListRecords;
-use Moox\ForgeServer\Resources\ForgeProjectResource;
-use Moox\ForgeServer\Resources\ForgeProjectResource\Widgets\ForgeProjectWidgets;
+use Moox\Devops\Resources\MooxServerResource;
+use Moox\Devops\Resources\MooxServerResource\Widgets\MooxServerWidgets;
 
 class ListPage extends ListRecords
 {
-    public static string $resource = ForgeProjectResource::class;
+    public static string $resource = MooxServerResource::class;
 
     public function getActions(): array
     {
@@ -18,13 +18,13 @@ class ListPage extends ListRecords
     public function getHeaderWidgets(): array
     {
         return [
-            //ForgeProjectWidgets::class,
+            //MooxServerWidgets::class,
         ];
     }
 
     public function getTitle(): string
     {
-        return __('forge-servers::translations.forge_projects');
+        return __('devops::translations.title');
     }
 
     protected function getHeaderActions(): array

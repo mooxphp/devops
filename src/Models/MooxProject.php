@@ -1,13 +1,13 @@
 <?php
 
-namespace Moox\ForgeServer\Models;
+namespace Moox\Devops\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
-class ForgeProject extends Model
+class MooxProject extends Model
 {
-    protected $table = 'forge_projects';
+    protected $table = 'moox_projects';
 
     protected $fillable = [
         'name',
@@ -32,10 +32,10 @@ class ForgeProject extends Model
 
     public function server()
     {
-        return $this->belongsTo(ForgeServer::class, 'server_id', 'forge_id');
+        return $this->belongsTo(MooxServer::class, 'server_id', 'forge_id');
     }
 
-    public static function getForgeProjectAuthorOptions(): Collection
+    public static function getMooxProjectAuthorOptions(): Collection
     {
         return static::select('last_commit_author')
             ->distinct()

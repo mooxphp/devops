@@ -1,12 +1,12 @@
 <?php
 
-namespace Moox\ForgeServer\Models;
+namespace Moox\Devops\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ForgeServer extends Model
+class MooxServer extends Model
 {
-    protected $table = 'forge_servers';
+    protected $table = 'moox_servers';
 
     protected $fillable = [
         'name',
@@ -28,6 +28,6 @@ class ForgeServer extends Model
 
     public function projects()
     {
-        return $this->hasMany(ForgeProject::class, 'server_id', 'forge_id');
+        return $this->hasMany(MooxProject::class, 'server_id', 'forge_id');
     }
 }

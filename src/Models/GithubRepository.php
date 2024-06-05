@@ -1,12 +1,12 @@
 <?php
 
-namespace Moox\ForgeServer\Models;
+namespace Moox\Devops\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ForgeRepository extends Model
+class GithubRepository extends Model
 {
-    protected $table = 'forge_repositories';
+    protected $table = 'github_repositories';
 
     protected $fillable = [
         'name',
@@ -23,6 +23,6 @@ class ForgeRepository extends Model
 
     public function server()
     {
-        return $this->hasMany(ForgeCommit::class, 'repository_id', 'id');
+        return $this->hasMany(GithubCommit::class, 'repository_id', 'id');
     }
 }

@@ -1,23 +1,23 @@
 <?php
 
-namespace Moox\ForgeServer\Commands;
+namespace Moox\Devops\Commands;
 
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
-use Moox\ForgeServer\Models\ForgeProject;
-use Moox\ForgeServer\Models\ForgeServer;
+use Moox\Devops\Models\MooxProject;
+use Moox\Devops\Models\MooxServer;
 
 class SyncForgeData extends Command
 {
-    protected $signature = 'moox:syncforge';
+    protected $signature = 'mooxdevops:syncforge';
 
     protected $description = 'Synchronize data from Laravel Forge API and Git data';
 
     public function handle()
     {
         $client = new Client();
-        $apiKey = config('forge-servers.forge_api_key');
-        $baseUrl = config('forge-servers.forge_api_url');
+        $apiKey = config('devops.forge_api_key');
+        $baseUrl = config('devops.forge_api_url');
 
         $serversResponse = $client->request('GET', $baseUrl.'/servers', [
             'headers' => ['Authorization' => "Bearer {$apiKey}"],
@@ -26,8 +26,8 @@ class SyncForgeData extends Command
         $servers = json_decode($serversResponse->getBody()->getContents(), true);
 
         foreach ($servers['servers'] as $serverData) {
-            if (str_contains($serverData['name'], config('forge-servers.forge_server_filter'))) {
-                $server = ForgeServer::updateOrCreate(
+            if (str_contains($serverData['name'], config('devops.forge_server_filter'))) {
+                $server = MooxServer::updateOrCreate(
                     ['forge_id' => $serverData['id']],
                     [
                         'name' => $serverData['name'],
@@ -51,7 +51,7 @@ class SyncForgeData extends Command
 
                 foreach ($projects['sites'] as $projectData) {
 
-                    $project = ForgeProject::updateOrCreate(
+                    $project = MooxProject::updateOrCreate(
                         ['site_id' => $projectData['id']],
                         [
                             'name' => $projectData['name'],

@@ -1,6 +1,6 @@
 {
-    "name": "moox/forge-servers",
-    "description": "This is my package forge-servers",
+    "name": "moox/devops",
+    "description": "This is my package devops",
     "keywords": [
         "Laravel",
         "Filament",
@@ -21,13 +21,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Moox\\ForgeServer\\": "src"
+            "Moox\\Devops\\": "src"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Moox\\ForgeServer\\ForgeServerServiceProvider"
+                "Moox\\Devops\\DevopsServiceProvider"
             ]
         }
     },

@@ -1,16 +1,16 @@
-![Moox ForgeServer](https://github.com/mooxphp/moox/raw/main/art/banner/forge-servers.jpg)
+![Moox Devops](https://github.com/mooxphp/moox/raw/main/art/banner/devops.jpg)
 
-# Moox ForgeServer
+# Moox Devops
 
-This is my package forge-servers
+Moox DevOps is work-in-progress. Manage your Forge Servers ... and more ... in Filament.
 
 ## Quick Installation
 
 These two commmands are all you need to install the package:
 
 ```bash
-composer require moox/forge-servers
-php artisan mooxforge-servers:install
+composer require moox/devops
+php artisan mooxdevops:install
 ```
 
 Curious what the install command does? See manual installation below.
@@ -25,15 +25,15 @@ Here are some things missing, like an overview with screenshots about this packa
 
 ## Manual Installation
 
-Instead of using the install-command `php artisan mooxforge-servers:install` you are able to install this package manually step by step:
+Instead of using the install-command `php artisan mooxdevops:install` you are able to install this package manually step by step:
 
 ```bash
 // Publish and run the migrations:
-php artisan vendor:publish --tag="forge-servers-migrations"
+php artisan vendor:publish --tag="devops-migrations"
 php artisan migrate
 
 // Publish the config file with:
-php artisan vendor:publish --tag="forge-servers-config"
+php artisan vendor:publish --tag="devops-config"
 ```
 
 ## Changelog

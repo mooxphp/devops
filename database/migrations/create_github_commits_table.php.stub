@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('forge_commits', function (Blueprint $table) {
+        Schema::create('github_commits', function (Blueprint $table) {
             $table->id();
             $table->string('commit_hash');
             $table->string('commit_message');
@@ -30,6 +30,6 @@ return new class extends Migration
     public function down(): void
 
     {
-        Schema::dropIfExists('forge-commits');
+        Schema::dropIfExists('github_commits');
     }
 };
