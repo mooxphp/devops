@@ -15,7 +15,7 @@ class SyncForgeData extends Command
 
     public function handle()
     {
-        $client = new Client();
+        $client = new Client;
         $apiKey = config('devops.forge_api_key');
         $baseUrl = config('devops.forge_api_url');
 
