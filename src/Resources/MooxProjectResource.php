@@ -180,7 +180,7 @@ class MooxProjectResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            //MooxProjectWidgets::class,
+            // MooxProjectWidgets::class,
         ];
     }
 

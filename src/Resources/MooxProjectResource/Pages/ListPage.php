@@ -18,7 +18,7 @@ class ListPage extends ListRecords
     public function getHeaderWidgets(): array
     {
         return [
-            //MooxProjectWidgets::class,
+            // MooxProjectWidgets::class,
         ];
     }
 

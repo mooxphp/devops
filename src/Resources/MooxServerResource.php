@@ -132,7 +132,7 @@ class MooxServerResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            //MooxServerWidgets::class,
+            // MooxServerWidgets::class,
         ];
     }
 
